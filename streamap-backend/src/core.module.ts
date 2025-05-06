@@ -6,6 +6,8 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getGraphQLConfig } from './core/config/graphql.config';
 import { RedisModule } from './core/redis/redis.module';
+import { AccountModule } from './modules/auth/account/account.module';
+import { SessionModule } from './modules/auth/session/session.module';
 
 @Module({
   imports: [
@@ -15,11 +17,13 @@ import { RedisModule } from './core/redis/redis.module';
   }),
   GraphQLModule.forRootAsync({
     driver: ApolloDriver,
-    imports: [ConfigModule],
+    imports: [ConfigModule],  
     useFactory: getGraphQLConfig,
     inject: [ConfigService]
   }),
   PrismaModule,
-  RedisModule]
+  RedisModule,
+  AccountModule,
+  SessionModule]
 })
 export class CoreModule {}
